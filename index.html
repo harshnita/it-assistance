@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Local AI Agent</title>
+</head>
+<body>
+  <h2>Local AI Agent</h2>
+
+  <textarea id="q" rows="5" cols="70" placeholder="Ask something..."></textarea><br/>
+  <button onclick="ask()">Ask</button>
+
+  <h3>Answer</h3>
+  <pre id="out"></pre>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById("q").value;
+      document.getElementById("out").textContent = "Thinking...";
+      const res = await fetch("http://127.0.0.1:5000/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({question})
+      });
+      const data = await res.json();
+      document.getElementById("out").textContent = data.answer || data.error;
+    }
+  </script>
+</body>
+</html>
